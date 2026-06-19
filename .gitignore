@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+build/
+dist/
+*.egg-info/
+cards/
+results/
+*.log
+
+# Local EEG dataset downloads/caches can be large and machine-specific.
+C-
+C-/
+mne_data/
+MNE-bnci-data/
+*.mat

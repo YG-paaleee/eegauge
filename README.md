@@ -1,0 +1,126 @@
+# BCI Dataset Cards
+
+BCI Dataset Cards is a beginner-focused command-line tool for inspecting public EEG/BCI datasets, running one small reproducible baseline, and generating plain-language dataset cards.
+
+The first supported target is `BNCI2014_001`, a common motor-imagery dataset exposed through [MOABB](https://moabb.neurotechx.com/). The goal is not to build a medical device. The goal is to make dataset assumptions, split strategy, baseline metrics, and limitations easier to inspect.
+
+## What This Project Does
+
+- Generates Markdown dataset cards for public BCI datasets.
+- Saves benchmark results as JSON.
+- Runs a simple classical baseline for motor imagery: CSP + LDA.
+- States leakage warnings and limitations explicitly.
+- Avoids claims about diagnosis, treatment, emotion detection, or reliable assistive use.
+
+## What This Project Does Not Do
+
+- It does not read thoughts.
+- It does not diagnose or treat medical conditions.
+- It does not stream from EEG hardware.
+- It does not replace clinical BCI systems.
+- It does not prove a model will work on real users outside the tested dataset.
+
+## Install
+
+Use Python 3.11 or newer. A virtual environment is strongly recommended.
+
+```powershell
+cd C:\Users\ralph\Documents\bci-dataset-cards
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+py -m pip install --upgrade pip
+py -m pip install -e .[bci,test]
+```
+
+If you only want to run the mocked unit tests without installing MOABB/MNE:
+
+```powershell
+py -m pip install -e .[test]
+py -m pytest
+```
+
+## Usage
+
+Generate a dataset card:
+
+```powershell
+bcicards scan --dataset BNCI2014_001
+```
+
+Run a tiny benchmark and update the card:
+
+```powershell
+bcicards benchmark --dataset BNCI2014_001 --subjects 1 2 3
+```
+
+Outputs:
+
+```text
+cards/BNCI2014_001.md
+results/BNCI2014_001.json
+results/BNCI2014_001.png
+```
+
+The first real MOABB run may download EEG data. That can take time.
+
+## Dataset Downloads On Windows
+
+MOABB/MNE may download public EEG files the first time you run a real benchmark. Keep those files outside the repo:
+
+```powershell
+$env:MNE_DATA = "$HOME\mne_data"
+$env:MNE_DATASETS_BNCI_PATH = "$HOME\mne_data"
+```
+
+The `.gitignore` blocks common local data folders and `.mat` files so dataset downloads do not get committed by accident.
+
+## Current Scope
+
+Supported:
+
+- `BNCI2014_001`
+- Motor imagery
+- CSP + LDA baseline
+- Subject-aware splitting when multiple subjects are provided
+- Stratified holdout when only one subject is provided
+
+Not supported yet:
+
+- P300, SSVEP, c-VEP, or resting-state datasets
+- Deep learning baselines
+- Real-time hardware streams
+- Web dashboards
+
+## Example
+
+See [examples/BNCI2014_001.md](examples/BNCI2014_001.md) for a mocked example of the card format.
+
+## Development
+
+Run tests:
+
+```powershell
+py -m pytest
+```
+
+Run CLI smoke checks:
+
+```powershell
+bcicards --help
+bcicards scan --help
+bcicards benchmark --help
+```
+
+## Responsible Claims
+
+This project is research tooling for public datasets. EEG signals are noisy, dataset-specific, and easy to overfit. Reported metrics are only meaningful with the stated split method, subject count, preprocessing, and dataset limitations.
+
+Do not describe this project as medical software, mind reading, diagnosis, treatment, or a validated assistive communication system.
+
+## Research Starting Points
+
+- [MOABB documentation](https://moabb.neurotechx.com/docs/index.html)
+- [MNE-Python](https://mne.tools/stable/index.html)
+- [BrainFlow](https://brainflow.org/)
+- [Non-Invasive BCI State of the Art and Trends](https://pmc.ncbi.nlm.nih.gov/articles/PMC11861396/)
+- [UNESCO neurotechnology ethics standard](https://www.unesco.org/en/articles/ethics-neurotechnology-unesco-adopts-first-global-standard-cutting-edge-technology)

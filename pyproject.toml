@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bci-dataset-cards"
+version = "0.1.0"
+description = "Generate plain-language dataset cards and simple baselines for public BCI datasets."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Ralph" }
+]
+keywords = ["bci", "eeg", "moabb", "mne", "benchmark", "dataset-cards"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+bci = [
+  "matplotlib>=3.8",
+  "mne>=1.6",
+  "moabb>=1.1",
+  "numpy>=1.26",
+  "pandas>=2.0",
+  "scikit-learn>=1.4",
+]
+test = [
+  "pytest>=8.0",
+]
+dev = [
+  "matplotlib>=3.8",
+  "mne>=1.6",
+  "moabb>=1.1",
+  "numpy>=1.26",
+  "pandas>=2.0",
+  "pytest>=8.0",
+  "scikit-learn>=1.4",
+]
+
+[project.scripts]
+bcicards = "bcicards.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
