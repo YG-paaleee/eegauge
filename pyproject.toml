@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bci-dataset-cards"
-version = "0.1.0"
+version = "0.2.0"
 description = "Generate plain-language dataset cards and simple baselines for public BCI datasets."
 readme = "README.md"
 requires-python = ">=3.11"
