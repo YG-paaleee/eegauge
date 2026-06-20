@@ -6,6 +6,7 @@ import argparse
 import sys
 from pathlib import Path
 
+from . import __version__
 from .benchmark import run_benchmark
 from .cards import render_dataset_card
 from .datasets import SUPPORTED_DATASETS, scan_dataset
@@ -18,7 +19,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="bcicards",
         description="Generate dataset cards and simple baselines for public EEG/BCI datasets.",
     )
-    parser.add_argument("--version", action="version", version="bcicards 0.1.0")
+    parser.add_argument("--version", action="version", version=f"bcicards {__version__}")
 
     subparsers = parser.add_subparsers(dest="command", required=True)
 

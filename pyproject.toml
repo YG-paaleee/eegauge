@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bci-dataset-cards"
-version = "0.2.0"
+dynamic = ["version"]
 description = "Generate plain-language dataset cards and simple baselines for public BCI datasets."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -55,6 +55,9 @@ bcicards = "bcicards.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "bcicards.__version__" }
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

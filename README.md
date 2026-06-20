@@ -133,7 +133,7 @@ number can't be read out of context.
 The card also reports the chance level and whether the score beats it (an approximate
 binomial test), plus per-class precision/recall/F1 and a confusion matrix. On this run,
 cross-subject accuracy is **0.429** vs a **0.25** chance level (binomial p < 0.001), but
-the per-class breakdown shows the baseline barely detects the "feet" class — detail a
+the per-class breakdown shows the baseline barely detects the "feet" class - detail a
 single accuracy number hides.
 
 ![Confusion matrix](examples/BNCI2014_001_confusion.png)

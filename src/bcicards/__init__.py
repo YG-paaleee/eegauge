@@ -1,3 +1,5 @@
 """Utilities for generating beginner-friendly BCI dataset cards."""
 
-__version__ = "0.1.0"
+# Single source of truth for the version. pyproject.toml reads this via
+# [tool.setuptools.dynamic], and the CLI imports it for `bcicards --version`.
+__version__ = "0.2.1"

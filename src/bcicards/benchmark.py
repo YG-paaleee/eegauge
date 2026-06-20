@@ -173,8 +173,8 @@ def run_benchmark(
         "confusion_matrix": confusion,
         "runtime_seconds": runtime_seconds,
         "library_versions": _library_versions(["mne", "moabb", "scikit-learn"]),
-        "plot_path": str(plot_path),
-        "confusion_matrix_path": str(confusion_matrix_path),
+        "plot_path": plot_path.as_posix(),
+        "confusion_matrix_path": confusion_matrix_path.as_posix(),
         "warnings": [
             "Metrics are dataset-specific and do not prove real-world BCI reliability.",
             (

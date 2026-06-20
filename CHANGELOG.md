@@ -6,6 +6,19 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-06-20
+
+### Fixed
+- `bcicards --version` reported the wrong version. The version is now single-sourced
+  from `bcicards.__version__`, read by both the CLI and `pyproject.toml` (dynamic
+  metadata), so it cannot drift again.
+- Card plot paths now use forward slashes, and the committed example card references
+  its co-located images so they render on GitHub.
+- Replaced non-ASCII em dashes in the README and `.gitignore` with plain ASCII.
+
+### Added
+- A CLI `--version` smoke test that guards against version drift.
+
 ## [0.2.0] - 2026-06-20
 
 ### Added
