@@ -165,6 +165,8 @@ def _format_significance(value: Any) -> str:
     p_value = value.get("p_value")
     if p_value is None:
         return verdict
+    if float(p_value) < 0.001:
+        return f"{verdict} (binomial p < 0.001)"
     return f"{verdict} (binomial p = {float(p_value):.3g})"
 
 
