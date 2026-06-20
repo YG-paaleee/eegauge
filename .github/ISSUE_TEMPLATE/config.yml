@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: MOABB (dataset source)
+    url: https://moabb.neurotechx.com/docs/index.html
+    about: Documentation for the benchmarking library this project builds on.
+  - name: MNE-Python (EEG analysis)
+    url: https://mne.tools/stable/index.html
+    about: Documentation for the underlying EEG analysis library.

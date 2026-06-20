@@ -11,6 +11,9 @@ cards/
 results/
 *.log
 
+# Personal application material — never publish
+APPLICATION_DRAFT.md
+
 # Local EEG dataset downloads/caches can be large and machine-specific.
 C-
 C-/
