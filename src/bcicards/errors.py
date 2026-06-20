@@ -10,4 +10,3 @@ def missing_dependency_message(package: str, extra: str = "bci") -> str:
         f"Missing optional dependency '{package}'. Install the BCI dependencies with "
         f"`py -m pip install -e .[{extra}]` from the project directory."
     )
-

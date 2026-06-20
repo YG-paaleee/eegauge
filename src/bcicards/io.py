@@ -33,4 +33,3 @@ def write_text(path: Path | str, content: str) -> Path:
     ensure_dir(target.parent)
     target.write_text(content.rstrip() + "\n", encoding="utf-8")
     return target
-

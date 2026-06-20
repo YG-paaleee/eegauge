@@ -129,7 +129,10 @@ def run_benchmark(
         "plot_path": str(plot_path),
         "warnings": [
             "Metrics are dataset-specific and do not prove real-world BCI reliability.",
-            "Avoid trial-level random splits across subjects; subject-aware splits reduce leakage risk.",
+            (
+                "Avoid trial-level random splits across subjects; "
+                "subject-aware splits reduce leakage risk."
+            ),
             "This is not medical software and should not be used for diagnosis or treatment.",
         ],
     }

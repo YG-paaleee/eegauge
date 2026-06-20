@@ -14,5 +14,4 @@ def test_write_json_serializes_sorted_pretty_payload(tmp_path):
     write_json(target, {"b": 2, "a": 1})
 
     assert json.loads(target.read_text(encoding="utf-8")) == {"a": 1, "b": 2}
-    assert target.read_text(encoding="utf-8").startswith("{\n  \"a\"")
-
+    assert target.read_text(encoding="utf-8").startswith('{\n  "a"')

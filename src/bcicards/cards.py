@@ -33,7 +33,10 @@ def render_dataset_card(
         _row("Dataset", meta.get("dataset")),
         _row("Paradigm", meta.get("paradigm")),
         _row("Subjects used", _join(meta.get("subjects_used"))),
-        _row("Available subjects", meta.get("n_available_subjects") or _join(meta.get("available_subjects"))),
+        _row(
+            "Available subjects",
+            meta.get("n_available_subjects") or _join(meta.get("available_subjects")),
+        ),
         _row("Classes", _join(meta.get("classes"))),
         _row("Channels", meta.get("n_channels") or _join(meta.get("channels"))),
         _row("EEG channel names", _join(meta.get("channels"))),
@@ -84,7 +87,10 @@ def render_dataset_card(
             "",
             "## Leakage And Limitations",
             "",
-            "- Subject-aware testing is stronger than random trial-level splitting across subjects.",
+            (
+                "- Subject-aware testing is stronger than random trial-level "
+                "splitting across subjects."
+            ),
             "- EEG datasets can contain subject, session, hardware, and preprocessing artifacts.",
             "- A high score on one dataset does not imply a deployable BCI system.",
             "- This project is not medical software.",

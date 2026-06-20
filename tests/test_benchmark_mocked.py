@@ -1,5 +1,3 @@
-import types
-
 import bcicards.benchmark as benchmark
 
 
@@ -128,7 +126,9 @@ def fake_stack():
         "CSP": lambda **kwargs: object(),
         "MotorImagery": FakeMotorImagery,
         "LinearDiscriminantAnalysis": lambda: object(),
-        "accuracy_score": lambda truth, predictions: sum(t == p for t, p in zip(truth, predictions)) / len(truth),
+        "accuracy_score": lambda truth, predictions: (
+            sum(t == p for t, p in zip(truth, predictions, strict=True)) / len(truth)
+        ),
         "balanced_accuracy_score": lambda truth, predictions: 0.5,
         "LeaveOneGroupOut": FakeLeaveOneGroupOut,
         "StratifiedShuffleSplit": lambda **kwargs: None,

@@ -41,12 +41,24 @@ EEG downloads can be large. Keep them out of the repo (see the README section
 on dataset downloads). The `.gitignore` already blocks common data folders and
 `.mat` files.
 
+## Linting and formatting
+
+This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting.
+CI checks both, so run them locally before opening a PR:
+
+```bash
+python -m pip install -e ".[lint]"
+ruff check .          # lint
+ruff format .         # auto-format
+```
+
 ## Pull requests
 
 1. Keep changes focused and small.
-2. Run `python -m pytest` before opening a PR.
-3. Run a CLI smoke check: `bcicards --help`.
-4. Do not add medical, diagnostic, "mind reading", or assistive-reliability claims.
+2. Run `ruff check .` and `ruff format .`.
+3. Run `python -m pytest` before opening a PR.
+4. Run a CLI smoke check: `bcicards --help`.
+5. Do not add medical, diagnostic, "mind reading", or assistive-reliability claims.
    This project is research tooling for public datasets only.
 
 ## Scope and claims

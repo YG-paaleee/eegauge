@@ -19,4 +19,3 @@ def test_benchmark_requires_subjects():
         parser.parse_args(["benchmark", "--dataset", "BNCI2014_001"])
 
     assert exc.value.code == 2
-

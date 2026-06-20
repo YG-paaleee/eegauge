@@ -37,7 +37,9 @@ def build_parser() -> argparse.ArgumentParser:
     benchmark.add_argument("--dataset", required=True, choices=sorted(SUPPORTED_DATASETS))
     benchmark.add_argument("--subjects", nargs="+", type=int, required=True)
     benchmark.add_argument("--cards-dir", default="cards", help="Directory for Markdown cards.")
-    benchmark.add_argument("--results-dir", default="results", help="Directory for JSON and plot outputs.")
+    benchmark.add_argument(
+        "--results-dir", default="results", help="Directory for JSON and plot outputs."
+    )
     benchmark.add_argument("--seed", type=int, default=42)
     benchmark.set_defaults(func=handle_benchmark)
 
@@ -84,4 +86,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

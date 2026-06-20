@@ -36,6 +36,9 @@ bci = [
 test = [
   "pytest>=8.0",
 ]
+lint = [
+  "ruff>=0.6",
+]
 dev = [
   "matplotlib>=3.8",
   "mne>=1.6",
@@ -43,6 +46,7 @@ dev = [
   "numpy>=1.26",
   "pandas>=2.0",
   "pytest>=8.0",
+  "ruff>=0.6",
   "scikit-learn>=1.4",
 ]
 
@@ -55,3 +59,12 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# E/W: pycodestyle, F: pyflakes, I: isort, UP: pyupgrade, B: bugbear, C4: comprehensions
+select = ["E", "W", "F", "I", "UP", "B", "C4"]

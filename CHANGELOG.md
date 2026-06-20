@@ -10,6 +10,7 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 - `CONTRIBUTING.md` with beginner-friendly setup and contribution guidance.
 - GitHub issue templates for bug reports and feature requests.
 - Real example output (card + plot) from a `BNCI2014_001` benchmark run.
+- Ruff linting and formatting, enforced by a dedicated CI job (`[lint]` extra).
 
 ## [0.1.0] - 2026-06-20
 
