@@ -84,12 +84,33 @@ class FakeFigure:
     def savefig(self, target, dpi=None):
         target.write_bytes(b"fake-png")
 
+    def colorbar(self, image, ax=None):
+        return None
+
 
 class FakeAxis:
     def bar(self, labels, values, color=None):
         return None
 
+    def imshow(self, matrix, cmap=None):
+        return object()
+
     def set_ylim(self, start, end):
+        return None
+
+    def set_xticks(self, ticks):
+        return None
+
+    def set_yticks(self, ticks):
+        return None
+
+    def set_xticklabels(self, labels, rotation=None, ha=None):
+        return None
+
+    def set_yticklabels(self, labels):
+        return None
+
+    def set_xlabel(self, label):
         return None
 
     def set_ylabel(self, label):
@@ -98,7 +119,7 @@ class FakeAxis:
     def set_title(self, title):
         return None
 
-    def text(self, index, value, label, ha=None):
+    def text(self, index, value, label, ha=None, va=None):
         return None
 
 
@@ -119,6 +140,27 @@ class FakeMotorImagery:
         return x_data, labels, frame
 
 
+class FakeBinomResult:
+    def __init__(self, pvalue):
+        self.pvalue = pvalue
+
+
+def _fake_confusion_matrix(truth, predictions, labels=None):
+    pairs = list(zip(truth, predictions, strict=True))
+    return [
+        [sum(1 for t, p in pairs if t == actual and p == predicted) for predicted in labels]
+        for actual in labels
+    ]
+
+
+def _fake_prfs(truth, predictions, labels=None, zero_division=0):
+    precision = [1.0 for _ in labels]
+    recall = [1.0 for _ in labels]
+    f1 = [1.0 for _ in labels]
+    support = [sum(1 for t in truth if t == label) for label in labels]
+    return precision, recall, f1, support
+
+
 def fake_stack():
     return {
         "plt": FakePlot(),
@@ -130,6 +172,9 @@ def fake_stack():
             sum(t == p for t, p in zip(truth, predictions, strict=True)) / len(truth)
         ),
         "balanced_accuracy_score": lambda truth, predictions: 0.5,
+        "confusion_matrix": _fake_confusion_matrix,
+        "precision_recall_fscore_support": _fake_prfs,
+        "binomtest": lambda k, n, p=0.5, alternative="greater": FakeBinomResult(0.01),
         "LeaveOneGroupOut": FakeLeaveOneGroupOut,
         "StratifiedShuffleSplit": lambda **kwargs: None,
         "make_pipeline": lambda *steps: FakePipeline(),
@@ -163,7 +208,15 @@ def test_run_benchmark_uses_subject_aware_split_and_writes_plot(monkeypatch, tmp
     assert set(result["metrics"]) == {"accuracy", "balanced_accuracy"}
     assert result["seed"] == 42
     assert result["library_versions"]
+    assert result["chance_level"] == 0.5
+    assert result["n_test_trials"] == 8
+    assert result["significance"]["above_chance"] is True
+    assert result["significance"]["p_value"] == 0.01
+    assert {item["class"] for item in result["per_class_metrics"]} == {"left", "right"}
+    assert result["confusion_matrix"]["labels"] == ["left", "right"]
+    assert len(result["confusion_matrix"]["matrix"]) == 2
     assert (tmp_path / "BNCI2014_001.png").exists()
+    assert (tmp_path / "BNCI2014_001_confusion.png").exists()
     assert metadata.subjects_used == [1, 2]
     assert metadata.n_channels == 2
     assert metadata.sampling_rate_hz == 250

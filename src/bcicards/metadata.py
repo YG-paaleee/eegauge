@@ -20,6 +20,8 @@ class DatasetMetadata:
     interval_seconds: list[float] = field(default_factory=list)
     source: str | None = None
     license: str | None = None
+    doi: str | None = None
+    citation: str | None = None
     notes: list[str] = field(default_factory=list)
 
     @property
@@ -53,6 +55,8 @@ def metadata_from_moabb(
     sessions = getattr(dataset, "sessions_per_subject", None)
     code = getattr(dataset, "code", dataset_name)
 
+    documentation = _moabb_documentation(dataset)
+
     channels = []
     sampling_rate = None
     notes = []
@@ -85,6 +89,42 @@ def metadata_from_moabb(
         sessions_per_subject=int(sessions) if sessions is not None else None,
         interval_seconds=[float(value) for value in interval],
         source=f"MOABB dataset code: {code}",
-        license=getattr(dataset, "license", None),
+        license=_extract_license(dataset, documentation),
+        doi=_extract_doi(dataset, documentation),
+        citation=_build_citation(documentation),
         notes=notes,
     )
+
+
+def _moabb_documentation(dataset: Any) -> Any:
+    """Return MOABB's own ``METADATA.documentation`` block if present, else None.
+
+    MOABB recently started attaching a structured ``METADATA`` class attribute to
+    datasets. Not every dataset populates it, so all access stays defensive.
+    """
+
+    metadata = getattr(dataset, "METADATA", None)
+    return getattr(metadata, "documentation", None)
+
+
+def _extract_doi(dataset: Any, documentation: Any) -> str | None:
+    doi = getattr(dataset, "doi", None) or getattr(documentation, "doi", None)
+    return str(doi) if doi else None
+
+
+def _extract_license(dataset: Any, documentation: Any) -> str | None:
+    license_value = getattr(dataset, "license", None) or getattr(documentation, "license", None)
+    return str(license_value) if license_value else None
+
+
+def _build_citation(documentation: Any) -> str | None:
+    if documentation is None:
+        return None
+    author = getattr(documentation, "senior_author", None)
+    if not author:
+        investigators = getattr(documentation, "investigators", None) or []
+        author = investigators[0] if investigators else None
+    year = getattr(documentation, "publication_year", None)
+    if author and year:
+        return f"{author} et al. ({year})"
+    return str(author) if author else None

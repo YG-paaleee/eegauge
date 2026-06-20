@@ -45,6 +45,8 @@ def render_dataset_card(
         _row("Sessions per subject", meta.get("sessions_per_subject")),
         _row("Source", meta.get("source")),
         _row("License", meta.get("license")),
+        _row("DOI", meta.get("doi")),
+        _row("Citation", meta.get("citation")),
         "",
     ]
 
@@ -59,6 +61,8 @@ def render_dataset_card(
                 _row("Split method", benchmark.get("split_method")),
                 _row("Accuracy", _format_metric(metrics.get("accuracy"))),
                 _row("Balanced accuracy", _format_metric(metrics.get("balanced_accuracy"))),
+                _row("Chance level", _format_metric(benchmark.get("chance_level"))),
+                _row("Above chance?", _format_significance(benchmark.get("significance"))),
                 _row("Subjects", _join(benchmark.get("subjects"))),
                 _row("Trials", benchmark.get("n_trials")),
                 _row("Seed", benchmark.get("seed")),
@@ -67,6 +71,30 @@ def render_dataset_card(
                 "",
             ]
         )
+
+        per_class = benchmark.get("per_class_metrics") or []
+        if per_class:
+            lines.extend(
+                [
+                    "## Per-Class Performance",
+                    "",
+                    "| Class | Precision | Recall | F1 | Support |",
+                    "| --- | --- | --- | --- | --- |",
+                    *[_per_class_row(item) for item in per_class],
+                    "",
+                ]
+            )
+
+        confusion_path = benchmark.get("confusion_matrix_path")
+        if confusion_path:
+            lines.extend(
+                [
+                    "## Confusion Matrix",
+                    "",
+                    f"![Confusion matrix]({confusion_path})",
+                    "",
+                ]
+            )
 
     lines.extend(
         [
@@ -128,6 +156,26 @@ def _format_metric(value: Any) -> str:
     if value is None:
         return "Not available"
     return f"{float(value):.3f}"
+
+
+def _format_significance(value: Any) -> str:
+    if not value:
+        return "Not available"
+    verdict = "yes" if value.get("above_chance") else "no"
+    p_value = value.get("p_value")
+    if p_value is None:
+        return verdict
+    return f"{verdict} (binomial p = {float(p_value):.3g})"
+
+
+def _per_class_row(item: dict[str, Any]) -> str:
+    return (
+        f"| {_display(item.get('class'))} "
+        f"| {_format_metric(item.get('precision'))} "
+        f"| {_format_metric(item.get('recall'))} "
+        f"| {_format_metric(item.get('f1'))} "
+        f"| {_display(item.get('support'))} |"
+    )
 
 
 def _format_seconds(value: Any) -> str:

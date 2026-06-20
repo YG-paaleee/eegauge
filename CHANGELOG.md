@@ -6,11 +6,24 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-20
+
 ### Added
-- `CONTRIBUTING.md` with beginner-friendly setup and contribution guidance.
-- GitHub issue templates for bug reports and feature requests.
-- Real example output (card + plot) from a `BNCI2014_001` benchmark run.
+- Chance level and an approximate one-sided binomial significance test (is the
+  score above chance?) in benchmark results and cards (closes #1).
+- Per-class precision/recall/F1 table and a confusion-matrix plot in cards.
+- Dataset license, DOI, and a citation line in cards, read defensively from MOABB
+  metadata (closes #2).
+- Three more motor-imagery datasets: `BNCI2014_004`, `Zhou2016`, `Weibo2014`
+  (closes #3).
+- `.pre-commit-config.yaml` running Ruff (lint + format) for contributors.
+- `CONTRIBUTING.md`, `CHANGELOG.md`, and GitHub issue templates.
+- Real example output (card + plots) from a `BNCI2014_001` benchmark run.
 - Ruff linting and formatting, enforced by a dedicated CI job (`[lint]` extra).
+
+### Notes
+- The "above chance" check is an approximate binomial test versus the naive chance
+  level (1 / number of classes), not a permutation test. It is a sanity check only.
 
 ## [0.1.0] - 2026-06-20
 

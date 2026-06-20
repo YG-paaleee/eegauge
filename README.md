@@ -10,9 +10,11 @@ The first supported target is `BNCI2014_001`, a common motor-imagery dataset exp
 
 ## What This Project Does
 
-- Generates Markdown dataset cards for public BCI datasets.
+- Generates Markdown dataset cards for public BCI datasets, including license, DOI, and citation.
 - Saves benchmark results as JSON.
 - Runs a simple classical baseline for motor imagery: CSP + LDA.
+- Reports the chance level and an (approximate) test of whether the score beats chance.
+- Reports per-class precision/recall/F1 and a confusion matrix, not just overall accuracy.
 - States leakage warnings and limitations explicitly.
 - Avoids claims about diagnosis, treatment, emotion detection, or reliable assistive use.
 
@@ -82,11 +84,13 @@ The `.gitignore` blocks common local data folders and `.mat` files so dataset do
 
 Supported:
 
-- `BNCI2014_001`
-- Motor imagery
+- Motor-imagery datasets: `BNCI2014_001`, `BNCI2014_004`, `Zhou2016`, `Weibo2014`
 - CSP + LDA baseline
 - Subject-aware splitting when multiple subjects are provided
 - Stratified holdout when only one subject is provided
+- Chance level + binomial significance check
+- Per-class metrics and a confusion matrix
+- License / DOI / citation surfaced in the card
 
 Not supported yet:
 

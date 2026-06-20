@@ -14,6 +14,9 @@ from .metadata import DatasetMetadata, metadata_from_moabb
 
 SUPPORTED_DATASETS: dict[str, str] = {
     "BNCI2014_001": "BNCI2014_001",
+    "BNCI2014_004": "BNCI2014_004",
+    "Zhou2016": "Zhou2016",
+    "Weibo2014": "Weibo2014",
 }
 
 
