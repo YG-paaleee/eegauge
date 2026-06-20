@@ -1,5 +1,9 @@
 # BCI Dataset Cards
 
+[![CI](https://github.com/YG-paaleee/bci-dataset-cards/actions/workflows/ci.yml/badge.svg)](https://github.com/YG-paaleee/bci-dataset-cards/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
+
 BCI Dataset Cards is a beginner-focused command-line tool for inspecting public EEG/BCI datasets, running one small reproducible baseline, and generating plain-language dataset cards.
 
 The first supported target is `BNCI2014_001`, a common motor-imagery dataset exposed through [MOABB](https://moabb.neurotechx.com/). The goal is not to build a medical device. The goal is to make dataset assumptions, split strategy, baseline metrics, and limitations easier to inspect.
@@ -93,9 +97,37 @@ Not supported yet:
 
 ## Example
 
-See [examples/BNCI2014_001.md](examples/BNCI2014_001.md) for a mocked example of the card format.
+[examples/BNCI2014_001.md](examples/BNCI2014_001.md) is **real output** from an
+actual run on the public `BNCI2014_001` motor-imagery dataset (MOABB 1.5.0,
+MNE 1.12.1, scikit-learn 1.9.0, seed 42):
+
+```powershell
+bcicards benchmark --dataset BNCI2014_001 --subjects 1 2 3
+```
+
+### Why this tool exists: within-subject vs cross-subject
+
+The same CSP + LDA baseline gives very different numbers depending on how you split:
+
+| Evaluation | Split method | Accuracy |
+| --- | --- | --- |
+| Subject 1 only | stratified holdout (within-subject) | **0.751** |
+| Subjects 1, 2, 3 | leave-one-subject-out (cross-subject) | **0.429** |
+
+Chance is 0.25 for these four classes, so both results contain real signal. But the
+within-subject score is far more optimistic than the cross-subject score. Quoting the
+0.751 number as if a model "works" is exactly the evaluation mistake this tool helps
+beginners notice and avoid. The generated card always states the split method so the
+number can't be read out of context.
+
+| Within-subject (optimistic) | Cross-subject (honest) |
+| --- | --- |
+| ![Within-subject baseline](examples/BNCI2014_001_within_subject.png) | ![Cross-subject baseline](examples/BNCI2014_001_loso.png) |
 
 ## Development
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup and contribution guidance, and
+[CHANGELOG.md](CHANGELOG.md) for release notes.
 
 Run tests:
 
