@@ -36,6 +36,9 @@ bci = [
 test = [
   "pytest>=8.0",
 ]
+eegdash = [
+  "eegdash>=0.8",
+]
 lint = [
   "ruff>=0.6",
 ]

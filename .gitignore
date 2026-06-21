@@ -13,6 +13,8 @@ results/
 
 # Personal application material - never publish
 APPLICATION_DRAFT.md
+# Internal agent handoff notes - never publish
+CODEX_HANDOFF.md
 
 # Local EEG dataset downloads/caches can be large and machine-specific.
 C-

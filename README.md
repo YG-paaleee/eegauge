@@ -69,6 +69,30 @@ results/BNCI2014_001.png
 
 The first real MOABB run may download EEG data. That can take time.
 
+### Scanning EEGDash datasets (metadata only)
+
+[EEGDash](https://github.com/eegdash/EEGDash) catalogs hundreds of OpenNeuro/NEMAR
+datasets. The `eegdash` backend reads a dataset's metadata and records **without
+downloading any signals**, and additionally writes an evaluation-provenance record:
+
+```powershell
+pip install -e .[eegdash]
+bcicards scan --backend eegdash --dataset ds002718
+```
+
+Outputs:
+
+```text
+cards/ds002718.md
+results/ds002718.provenance.json
+```
+
+The card surfaces modalities, record/subject counts, license, DOI, BIDS validation
+status, and honest **leakage risk factors** (e.g. "multiple sessions per subject -
+use subject-wise splits"). The `provenance.json` (schema `bci-evaluation-card/0.1`)
+records the exact cohort so an evaluation can be reproduced. No baseline is run for
+EEGDash datasets yet (they span many modalities/tasks); this step is metadata only.
+
 ## Dataset Downloads On Windows
 
 MOABB/MNE may download public EEG files the first time you run a real benchmark. Keep those files outside the repo:
@@ -91,6 +115,7 @@ Supported:
 - Chance level + binomial significance check
 - Per-class metrics and a confusion matrix
 - License / DOI / citation surfaced in the card
+- EEGDash backend: metadata-only `scan` + evaluation-provenance records (no signal download)
 
 Not supported yet:
 

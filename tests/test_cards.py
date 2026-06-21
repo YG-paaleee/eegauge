@@ -1,5 +1,5 @@
 from bcicards.cards import render_dataset_card
-from bcicards.metadata import DatasetMetadata
+from bcicards.metadata import DatasetMetadata, metadata_from_eegdash
 
 
 def test_render_dataset_card_includes_limits_and_no_medical_claims():
@@ -68,3 +68,29 @@ def test_render_dataset_card_degrades_when_optional_fields_missing():
     # No benchmark block, so no per-class or confusion sections
     assert "## Per-Class Performance" not in card
     assert "## Confusion Matrix" not in card
+
+
+def test_render_eegdash_card_shows_modalities_records_and_bids():
+    metadata = metadata_from_eegdash(
+        "ds002718",
+        {
+            "recording_modality": ["eeg"],
+            "source": "openneuro",
+            "license": "CC0",
+            "bids_validator_status": "pass",
+            "n_validator_errors": 0,
+        },
+        [
+            {"subject": "sub-01", "session": "01", "task": "rest", "run": "1"},
+            {"subject": "sub-02", "session": "01", "task": "rest", "run": "1"},
+        ],
+    )
+
+    card = render_dataset_card(metadata)
+
+    assert "| Dataset | ds002718 |" in card
+    assert "| Modalities | eeg |" in card
+    assert "| Records | 2 |" in card
+    assert "| BIDS validation | pass (0 validator errors) |" in card
+    assert "| Available subjects | 2 |" in card
+    assert "| License | CC0 |" in card

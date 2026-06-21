@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
@@ -22,6 +23,14 @@ class DatasetMetadata:
     license: str | None = None
     doi: str | None = None
     citation: str | None = None
+    # Optional fields used by non-MOABB backends (e.g. EEGDash). Default to
+    # empty/None so MOABB cards are unchanged.
+    modalities: list[str] = field(default_factory=list)
+    source_archive: str | None = None
+    bids_status: str | None = None
+    bids_n_errors: int | None = None
+    n_records: int | None = None
+    n_subjects: int | None = None
     notes: list[str] = field(default_factory=list)
 
     @property
@@ -128,3 +137,69 @@ def _build_citation(documentation: Any) -> str | None:
     if author and year:
         return f"{author} et al. ({year})"
     return str(author) if author else None
+
+
+def _sessions_per_subject(records: list[dict[str, Any]]) -> int | None:
+    per_subject: dict[str, set[Any]] = {}
+    for record in records:
+        subject = record.get("subject")
+        if not subject:
+            continue
+        per_subject.setdefault(subject, set())
+        if record.get("session"):
+            per_subject[subject].add(record["session"])
+    counts = {len(sessions) for sessions in per_subject.values() if sessions}
+    return counts.pop() if len(counts) == 1 else None
+
+
+def metadata_from_eegdash(
+    dataset_id: str,
+    raw: Mapping[str, Any],
+    records: list[dict[str, Any]],
+) -> DatasetMetadata:
+    """Build metadata from EEGDash dataset metadata + a record listing (no signals).
+
+    EEGDash is multi-modality, so signal-dependent fields (channels, sampling
+    rate, class labels) are intentionally left empty here.
+    """
+
+    modalities = raw.get("recording_modality") or []
+    if isinstance(modalities, str):
+        modalities = [modalities]
+    modalities = [str(modality) for modality in modalities]
+
+    subjects = {record["subject"] for record in records if record.get("subject")}
+    tasks = sorted({record["task"] for record in records if record.get("task")})
+
+    senior = raw.get("senior_author")
+    year = raw.get("publication_year")
+    if senior and year:
+        citation = f"{senior} et al. ({year})"
+    elif senior:
+        citation = str(senior)
+    else:
+        citation = None
+
+    return DatasetMetadata(
+        dataset=dataset_id,
+        paradigm=", ".join(tasks) if tasks else "not specified",
+        source=f"EEGDash dataset: {dataset_id}",
+        license=str(raw["license"]) if raw.get("license") else None,
+        doi=str(raw["doi"]) if raw.get("doi") else None,
+        citation=citation,
+        sessions_per_subject=_sessions_per_subject(records),
+        modalities=modalities,
+        source_archive=str(raw["source"]) if raw.get("source") else None,
+        bids_status=(
+            str(raw["bids_validator_status"]) if raw.get("bids_validator_status") else None
+        ),
+        bids_n_errors=(
+            int(raw["n_validator_errors"]) if raw.get("n_validator_errors") is not None else None
+        ),
+        n_records=len(records),
+        n_subjects=len(subjects),
+        notes=[
+            "Channel names, sampling rate, and class labels require loading signals "
+            "(not done during scan)."
+        ],
+    )

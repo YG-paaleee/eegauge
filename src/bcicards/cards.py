@@ -35,14 +35,19 @@ def render_dataset_card(
         _row("Subjects used", _join(meta.get("subjects_used"))),
         _row(
             "Available subjects",
-            meta.get("n_available_subjects") or _join(meta.get("available_subjects")),
+            meta.get("n_subjects")
+            or meta.get("n_available_subjects")
+            or _join(meta.get("available_subjects")),
         ),
+        _row("Modalities", _join(meta.get("modalities"))),
         _row("Classes", _join(meta.get("classes"))),
         _row("Channels", meta.get("n_channels") or _join(meta.get("channels"))),
         _row("EEG channel names", _join(meta.get("channels"))),
         _row("Raw channel types", _format_counts(meta.get("channel_type_counts"))),
         _row("Sampling rate", _format_sampling_rate(meta.get("sampling_rate_hz"))),
         _row("Sessions per subject", meta.get("sessions_per_subject")),
+        _row("Records", meta.get("n_records")),
+        _row("BIDS validation", _format_bids(meta.get("bids_status"), meta.get("bids_n_errors"))),
         _row("Source", meta.get("source")),
         _row("License", meta.get("license")),
         _row("DOI", meta.get("doi")),
@@ -196,3 +201,11 @@ def _format_counts(value: Any) -> str:
     if not value:
         return "Not available"
     return ", ".join(f"{key}: {value[key]}" for key in sorted(value))
+
+
+def _format_bids(status: Any, n_errors: Any) -> str:
+    if not status:
+        return "Not available"
+    if n_errors is not None:
+        return f"{status} ({n_errors} validator errors)"
+    return str(status)

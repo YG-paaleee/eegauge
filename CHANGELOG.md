@@ -6,6 +6,26 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-06-21
+
+### Added
+- Pluggable dataset-source backends via a `DatasetBackend` protocol. The existing
+  MOABB logic is exposed through a `moabb` backend; a new `eegdash` backend reads
+  metadata from EEGDash (OpenNeuro/NEMAR) without downloading signals.
+- `bcicards scan --backend eegdash <dataset-id>` produces a metadata card plus a
+  machine-readable evaluation-provenance record (`<id>.provenance.json`,
+  schema `bci-evaluation-card/0.1`) capturing the exact cohort (subjects/sessions/
+  records), BIDS validation status, and honest leakage *risk factors*.
+- New optional card fields: modalities, records, BIDS validation, surfaced for the
+  eegdash backend (MOABB cards are unchanged; missing values show "Not available").
+- `eegdash` optional dependency extra (`pip install -e ".[eegdash]"`).
+- Design spec at `docs/design/eegdash-backend.md`.
+
+### Notes
+- The eegdash backend is metadata-only by design (no signal download, no baseline
+  yet). EEGDash is new and its API may change; the backend is isolated and its
+  surface is intentionally small.
+
 ## [0.2.1] - 2026-06-20
 
 ### Fixed
