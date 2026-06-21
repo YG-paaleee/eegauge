@@ -1,12 +1,16 @@
 # BCI Dataset Cards
 
 [![CI](https://github.com/YG-paaleee/bci-dataset-cards/actions/workflows/ci.yml/badge.svg)](https://github.com/YG-paaleee/bci-dataset-cards/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/YG-paaleee/bci-dataset-cards)](https://github.com/YG-paaleee/bci-dataset-cards/releases)
 ![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-BCI Dataset Cards is a beginner-focused command-line tool for inspecting public EEG/BCI datasets, running one small reproducible baseline, and generating plain-language dataset cards.
+**Audit public EEG/BCI datasets and reproduce simple baselines honestly.** BCI Dataset Cards is a small command-line tool that turns a public dataset into a plain-language "dataset card" - stating the evaluation split, chance level, per-class metrics, and leakage risks - so a reported accuracy can't be read out of context.
 
-The first supported target is `BNCI2014_001`, a common motor-imagery dataset exposed through [MOABB](https://moabb.neurotechx.com/). The goal is not to build a medical device. The goal is to make dataset assumptions, split strategy, baseline metrics, and limitations easier to inspect.
+It works with motor-imagery datasets from [MOABB](https://moabb.neurotechx.com/) (`BNCI2014_001`, `BNCI2014_004`, `Zhou2016`, `Weibo2014`) and reads metadata from [EEGDash](https://github.com/eegdash/EEGDash)'s 700+ OpenNeuro/NEMAR datasets. The goal is not a medical device - it is benchmark hygiene: making dataset assumptions, split strategy, and limitations easy to see.
+
+> **Why it exists:** on `BNCI2014_001`, the same CSP+LDA baseline scores **0.751** within-subject but only **0.429** across subjects (chance is 0.25). Quoting the optimistic number as if a model "works" is the exact mistake this tool helps you catch. [See the worked example.](examples/BNCI2014_001.md)
 
 ## What This Project Does
 
@@ -15,6 +19,8 @@ The first supported target is `BNCI2014_001`, a common motor-imagery dataset exp
 - Runs a simple classical baseline for motor imagery: CSP + LDA.
 - Reports the chance level and an (approximate) test of whether the score beats chance.
 - Reports per-class precision/recall/F1 and a confusion matrix, not just overall accuracy.
+- Reads metadata for 700+ EEGDash (OpenNeuro/NEMAR) datasets and records an
+  evaluation-provenance JSON (the exact cohort used).
 - States leakage warnings and limitations explicitly.
 - Avoids claims about diagnosis, treatment, emotion detection, or reliable assistive use.
 

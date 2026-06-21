@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "BCI Dataset Cards"
+abstract: >-
+  A command-line tool that generates plain-language "dataset cards" for public
+  EEG/BCI datasets: leakage-aware baselines, chance level and significance,
+  per-class metrics, and metadata from MOABB and EEGDash (OpenNeuro/NEMAR).
+type: software
+authors:
+  - given-names: "Ralph Angelo"
+    family-names: "Badang"
+    alias: "YG-paaleee"
+repository-code: "https://github.com/YG-paaleee/bci-dataset-cards"
+url: "https://github.com/YG-paaleee/bci-dataset-cards"
+license: MIT
+version: "0.3.1"
+date-released: "2026-06-21"
+keywords:
+  - EEG
+  - BCI
+  - brain-computer interface
+  - dataset card
+  - reproducibility
+  - leakage
+  - MOABB
+  - EEGDash
