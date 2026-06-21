@@ -2,10 +2,10 @@ import json
 
 import pytest
 
-import bcicards
-from bcicards import cli
-from bcicards.cli import build_parser
-from bcicards.metadata import metadata_from_eegdash
+import eegauge
+from eegauge import cli
+from eegauge.cli import build_parser
+from eegauge.metadata import metadata_from_eegdash
 
 
 def test_version_matches_package(capsys):
@@ -16,7 +16,7 @@ def test_version_matches_package(capsys):
 
     assert exc.value.code == 0
     out = capsys.readouterr().out
-    assert out.strip() == f"bcicards {bcicards.__version__}"
+    assert out.strip() == f"eegauge {eegauge.__version__}"
 
 
 def test_top_level_help_smoke():

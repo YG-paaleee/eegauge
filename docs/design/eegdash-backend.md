@@ -1,7 +1,7 @@
 # Design Spec: EEGDash backend + evaluation-provenance card (draft v0.1)
 
 > Status: **draft for review - no code yet.** Decide scope before building.
-> Author target: a v0.3.0 milestone for bci-dataset-cards.
+> Author target: a v0.3.0 milestone for eegauge.
 
 ## 1. Goal and positioning
 
@@ -10,7 +10,7 @@ datasets exposed as queryable, ML-ready (PyTorch/Braindecode) classes, with BIDS
 validation. It does **not** record how a dataset was evaluated or whether a score
 should be trusted. That downstream layer is our niche.
 
-**Step 1 (this spec): metadata-only.** Add `bcicards scan --backend eegdash <id>`
+**Step 1 (this spec): metadata-only.** Add `eegauge scan --backend eegdash <id>`
 that reads EEGDash metadata and emits (a) a human-readable card and (b) a
 machine-readable **evaluation-provenance record**. No signal download, no benchmark.
 
@@ -30,7 +30,7 @@ upstream integration. Those are later, separately-decided phases.
 Introduce a backend abstraction; refactor the current MOABB path into it unchanged.
 
 ```
-src/bcicards/backends/
+src/eegauge/backends/
   base.py     # DatasetBackend Protocol
   moabb.py    # existing logic moved here (behavior identical)
   eegdash.py  # new adapter
@@ -102,7 +102,7 @@ Emit a machine-readable `*.provenance.json` capturing the **exact cohort**, so
   "bids_validation": { "status": "pass", "n_errors": 0 },
   "leakage_risk_factors": ["multiple runs per subject"],
   "evaluation": null,            // filled only in a later benchmark phase
-  "environment": { "eegdash": "0.8.2", "bcicards": "0.3.0" }
+  "environment": { "eegdash": "0.8.2", "eegauge": "0.3.0" }
 }
 ```
 

@@ -1,4 +1,4 @@
-from bcicards.datasets import SUPPORTED_DATASETS, _first_raw, load_sample_info
+from eegauge.datasets import SUPPORTED_DATASETS, _first_raw, load_sample_info
 
 
 class FakeRaw:

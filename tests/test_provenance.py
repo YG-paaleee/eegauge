@@ -1,5 +1,5 @@
-from bcicards.metadata import metadata_from_eegdash
-from bcicards.provenance import SCHEMA, build_provenance, leakage_risk_factors
+from eegauge.metadata import metadata_from_eegdash
+from eegauge.provenance import SCHEMA, build_provenance, leakage_risk_factors
 
 
 def test_leakage_flags_multiple_sessions():
@@ -50,7 +50,7 @@ def test_build_provenance_shape():
         records=records,
         filters=None,
         retrieved_at="2026-06-21T00:00:00+00:00",
-        versions={"bcicards": "0.3.0", "eegdash": "0.8.2"},
+        versions={"eegauge": "0.3.0", "eegdash": "0.8.2"},
     )
 
     assert prov["schema"] == SCHEMA
@@ -62,4 +62,4 @@ def test_build_provenance_shape():
     assert prov["selected"]["subjects"] == ["sub-01", "sub-02"]
     assert prov["bids_validation"] == {"status": "pass", "n_errors": 0}
     assert prov["evaluation"] is None
-    assert prov["environment"]["bcicards"] == "0.3.0"
+    assert prov["environment"]["eegauge"] == "0.3.0"

@@ -1,6 +1,6 @@
 """MOABB-backed dataset source.
 
-A thin wrapper over the existing :mod:`bcicards.datasets` logic so behavior is
+A thin wrapper over the existing :mod:`eegauge.datasets` logic so behavior is
 unchanged; it just exposes that logic through the :class:`DatasetBackend` protocol.
 """
 

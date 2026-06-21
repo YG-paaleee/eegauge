@@ -1,4 +1,4 @@
-"""Command-line interface for BCI Dataset Cards."""
+"""Command-line interface for EEGauge."""
 
 from __future__ import annotations
 
@@ -21,10 +21,10 @@ from .provenance import build_provenance
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="bcicards",
+        prog="eegauge",
         description="Generate dataset cards and simple baselines for public EEG/BCI datasets.",
     )
-    parser.add_argument("--version", action="version", version=f"bcicards {__version__}")
+    parser.add_argument("--version", action="version", version=f"eegauge {__version__}")
 
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -84,7 +84,7 @@ def handle_scan(args: argparse.Namespace) -> int:
             records=records,
             filters=None,
             retrieved_at=datetime.now(UTC).isoformat(timespec="seconds"),
-            versions={"bcicards": __version__, **_versions(["eegdash"])},
+            versions={"eegauge": __version__, **_versions(["eegdash"])},
         )
         prov_path = Path(args.results_dir) / f"{safe_name(args.dataset)}.provenance.json"
         write_json(prov_path, provenance)

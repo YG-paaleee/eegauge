@@ -1,6 +1,6 @@
 """Dataset source backends.
 
-Each backend implements :class:`~bcicards.backends.base.DatasetBackend`. Imports
+Each backend implements :class:`~eegauge.backends.base.DatasetBackend`. Imports
 of the concrete backends are lazy so that selecting one backend never pulls in the
 other's heavy optional dependencies.
 """

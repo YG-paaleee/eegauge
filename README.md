@@ -1,12 +1,12 @@
-# BCI Dataset Cards
+# EEGauge
 
-[![CI](https://github.com/YG-paaleee/bci-dataset-cards/actions/workflows/ci.yml/badge.svg)](https://github.com/YG-paaleee/bci-dataset-cards/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/YG-paaleee/bci-dataset-cards)](https://github.com/YG-paaleee/bci-dataset-cards/releases)
+[![CI](https://github.com/YG-paaleee/eegauge/actions/workflows/ci.yml/badge.svg)](https://github.com/YG-paaleee/eegauge/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/YG-paaleee/eegauge)](https://github.com/YG-paaleee/eegauge/releases)
 ![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-**Audit public EEG/BCI datasets and reproduce simple baselines honestly.** BCI Dataset Cards is a small command-line tool that turns a public dataset into a plain-language "dataset card" - stating the evaluation split, chance level, per-class metrics, and leakage risks - so a reported accuracy can't be read out of context.
+**Audit public EEG/BCI datasets and reproduce simple baselines honestly.** EEGauge is a small command-line tool that turns a public dataset into a plain-language "dataset card" - stating the evaluation split, chance level, per-class metrics, and leakage risks - so a reported accuracy can't be read out of context.
 
 It works with motor-imagery datasets from [MOABB](https://moabb.neurotechx.com/) (`BNCI2014_001`, `BNCI2014_004`, `Zhou2016`, `Weibo2014`) and reads metadata from [EEGDash](https://github.com/eegdash/EEGDash)'s 700+ OpenNeuro/NEMAR datasets. The goal is not a medical device - it is benchmark hygiene: making dataset assumptions, split strategy, and limitations easy to see.
 
@@ -37,7 +37,8 @@ It works with motor-imagery datasets from [MOABB](https://moabb.neurotechx.com/)
 Use Python 3.11 or newer. A virtual environment is strongly recommended.
 
 ```powershell
-cd C:\Users\ralph\Documents\bci-dataset-cards
+git clone https://github.com/YG-paaleee/eegauge.git
+cd eegauge
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 py -m pip install --upgrade pip
@@ -56,13 +57,13 @@ py -m pytest
 Generate a dataset card:
 
 ```powershell
-bcicards scan --dataset BNCI2014_001
+eegauge scan --dataset BNCI2014_001
 ```
 
 Run a tiny benchmark and update the card:
 
 ```powershell
-bcicards benchmark --dataset BNCI2014_001 --subjects 1 2 3
+eegauge benchmark --dataset BNCI2014_001 --subjects 1 2 3
 ```
 
 Outputs:
@@ -83,7 +84,7 @@ downloading any signals**, and additionally writes an evaluation-provenance reco
 
 ```powershell
 pip install -e .[eegdash]
-bcicards scan --backend eegdash --dataset ds002718
+eegauge scan --backend eegdash --dataset ds002718
 ```
 
 Outputs:
@@ -142,7 +143,7 @@ actual run on the public `BNCI2014_001` motor-imagery dataset (MOABB 1.5.0,
 MNE 1.12.1, scikit-learn 1.9.0, seed 42):
 
 ```powershell
-bcicards benchmark --dataset BNCI2014_001 --subjects 1 2 3
+eegauge benchmark --dataset BNCI2014_001 --subjects 1 2 3
 ```
 
 ### Why this tool exists: within-subject vs cross-subject
@@ -188,9 +189,9 @@ py -m pytest
 Run CLI smoke checks:
 
 ```powershell
-bcicards --help
-bcicards scan --help
-bcicards benchmark --help
+eegauge --help
+eegauge scan --help
+eegauge benchmark --help
 ```
 
 ## Responsible Claims

@@ -1,5 +1,5 @@
-from bcicards.cards import render_dataset_card
-from bcicards.metadata import DatasetMetadata, metadata_from_eegdash
+from eegauge.cards import render_dataset_card
+from eegauge.metadata import DatasetMetadata, metadata_from_eegdash
 
 
 def test_render_dataset_card_includes_limits_and_no_medical_claims():

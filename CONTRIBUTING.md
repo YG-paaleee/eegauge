@@ -1,4 +1,4 @@
-# Contributing to BCI Dataset Cards
+# Contributing to EEGauge
 
 Thanks for your interest! This project is intentionally small and beginner-friendly.
 Its goal is to make public EEG/BCI datasets easier to inspect and to make simple
@@ -34,7 +34,7 @@ To run a real benchmark you also need the science stack:
 
 ```bash
 python -m pip install -e ".[bci]"
-bcicards benchmark --dataset BNCI2014_001 --subjects 1 2 3
+eegauge benchmark --dataset BNCI2014_001 --subjects 1 2 3
 ```
 
 EEG downloads can be large. Keep them out of the repo (see the README section
@@ -57,7 +57,7 @@ ruff format .         # auto-format
 1. Keep changes focused and small.
 2. Run `ruff check .` and `ruff format .`.
 3. Run `python -m pytest` before opening a PR.
-4. Run a CLI smoke check: `bcicards --help`.
+4. Run a CLI smoke check: `eegauge --help`.
 5. Do not add medical, diagnostic, "mind reading", or assistive-reliability claims.
    This project is research tooling for public datasets only.
 

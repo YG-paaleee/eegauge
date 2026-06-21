@@ -12,7 +12,7 @@ class DatasetBackend(Protocol):
     """A source of dataset metadata, and where available a record listing.
 
     Backends are intentionally small: ``get_dataset_metadata`` returns a
-    normalized :class:`~bcicards.metadata.DatasetMetadata`, and ``list_records``
+    normalized :class:`~eegauge.metadata.DatasetMetadata`, and ``list_records``
     returns lightweight per-recording dicts (subject/session/task/run) used for
     cohort provenance and leakage-risk hints. Neither method downloads signals.
     """

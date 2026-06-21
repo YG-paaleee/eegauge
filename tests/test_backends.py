@@ -1,8 +1,8 @@
 import pytest
 
-from bcicards.backends import BACKENDS, get_backend
-from bcicards.backends.eegdash import EegdashBackend, _normalize_record
-from bcicards.backends.moabb import MoabbBackend
+from eegauge.backends import BACKENDS, get_backend
+from eegauge.backends.eegdash import EegdashBackend, _normalize_record
+from eegauge.backends.moabb import MoabbBackend
 
 
 class FakeEegdashClient:

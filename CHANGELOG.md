@@ -6,6 +6,14 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-06-21
+
+### Changed
+- **Renamed the project to EEGauge** (was "BCI Dataset Cards"). The GitHub repo, the
+  Python package, and the CLI command are now `eegauge`. The old GitHub URL redirects.
+- **Breaking:** the command-line entry point changed from `bcicards` to `eegauge`, and
+  the import package from `bcicards` to `eegauge`. Update any scripts/aliases.
+
 ## [0.3.1] - 2026-06-21
 
 ### Fixed
@@ -23,7 +31,7 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 - Pluggable dataset-source backends via a `DatasetBackend` protocol. The existing
   MOABB logic is exposed through a `moabb` backend; a new `eegdash` backend reads
   metadata from EEGDash (OpenNeuro/NEMAR) without downloading signals.
-- `bcicards scan --backend eegdash <dataset-id>` produces a metadata card plus a
+- `eegauge scan --backend eegdash <dataset-id>` produces a metadata card plus a
   machine-readable evaluation-provenance record (`<id>.provenance.json`,
   schema `bci-evaluation-card/0.1`) capturing the exact cohort (subjects/sessions/
   records), BIDS validation status, and honest leakage *risk factors*.
@@ -40,8 +48,8 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 ## [0.2.1] - 2026-06-20
 
 ### Fixed
-- `bcicards --version` reported the wrong version. The version is now single-sourced
-  from `bcicards.__version__`, read by both the CLI and `pyproject.toml` (dynamic
+- `eegauge --version` reported the wrong version. The version is now single-sourced
+  from `eegauge.__version__`, read by both the CLI and `pyproject.toml` (dynamic
   metadata), so it cannot drift again.
 - Card plot paths now use forward slashes, and the committed example card references
   its co-located images so they render on GitHub.
@@ -72,8 +80,8 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 ## [0.1.0] - 2026-06-20
 
 ### Added
-- `bcicards scan` to generate a Markdown dataset card from MOABB metadata.
-- `bcicards benchmark` to run a small CSP + LDA motor-imagery baseline and
+- `eegauge scan` to generate a Markdown dataset card from MOABB metadata.
+- `eegauge benchmark` to run a small CSP + LDA motor-imagery baseline and
   save results as JSON plus a metrics plot.
 - Subject-aware (leave-one-subject-out) splitting when multiple subjects are
   provided; stratified holdout for a single subject.

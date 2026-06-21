@@ -1,6 +1,6 @@
 import json
 
-from bcicards.io import safe_name, write_json
+from eegauge.io import safe_name, write_json
 
 
 def test_safe_name_keeps_dataset_id_readable():

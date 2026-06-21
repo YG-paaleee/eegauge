@@ -15,7 +15,7 @@ A clear description of the bug.
 The exact command you ran, for example:
 
 ```
-bcicards benchmark --dataset BNCI2014_001 --subjects 1
+eegauge benchmark --dataset BNCI2014_001 --subjects 1
 ```
 
 ## Expected result
@@ -26,7 +26,7 @@ What you expected to happen.
 
 - OS:
 - Python version:
-- Package version (`bcicards --version`):
+- Package version (`eegauge --version`):
 - Installed extras (`[test]` only, or `[bci]`):
 
 ## Extra context

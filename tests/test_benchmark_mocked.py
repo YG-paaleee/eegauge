@@ -1,4 +1,4 @@
-import bcicards.benchmark as benchmark
+import eegauge.benchmark as benchmark
 
 
 class FakeArray:
