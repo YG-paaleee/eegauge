@@ -6,6 +6,17 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-06-21
+
+### Fixed
+- EEGDash metadata mapping against the live API: read the DOI from `dataset_doi`
+  (with the `doi:` prefix stripped) and the citation from `author_year`, and read
+  BIDS entities (subject/session/task/run) whether nested under `entities` or flat
+  at the top level. Verified end to end against `ds002718` (Wakeman face-processing).
+
+### Added
+- A real EEGDash example under `examples/` (`ds002718` card + provenance JSON).
+
 ## [0.3.0] - 2026-06-21
 
 ### Added

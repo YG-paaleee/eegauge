@@ -88,10 +88,15 @@ results/ds002718.provenance.json
 ```
 
 The card surfaces modalities, record/subject counts, license, DOI, BIDS validation
-status, and honest **leakage risk factors** (e.g. "multiple sessions per subject -
-use subject-wise splits"). The `provenance.json` (schema `bci-evaluation-card/0.1`)
-records the exact cohort so an evaluation can be reproduced. No baseline is run for
-EEGDash datasets yet (they span many modalities/tasks); this step is metadata only.
+status (when EEGDash provides it), and honest **leakage risk factors** (e.g. "multiple
+sessions per subject - use subject-wise splits"). The `provenance.json` (schema
+`bci-evaluation-card/0.1`) records the exact cohort so an evaluation can be reproduced.
+No baseline is run for EEGDash datasets yet (they span many modalities/tasks); this
+step is metadata only.
+
+See [examples/ds002718.md](examples/ds002718.md) and
+[examples/ds002718.provenance.json](examples/ds002718.provenance.json) for real output
+from a live scan of the Wakeman face-processing dataset (18 subjects).
 
 ## Dataset Downloads On Windows
 

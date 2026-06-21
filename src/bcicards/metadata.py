@@ -173,19 +173,29 @@ def metadata_from_eegdash(
 
     senior = raw.get("senior_author")
     year = raw.get("publication_year")
+    author_year = raw.get("author_year")
     if senior and year:
         citation = f"{senior} et al. ({year})"
+    elif author_year:
+        citation = str(author_year)
     elif senior:
         citation = str(senior)
     else:
         citation = None
+
+    # EEGDash uses ``dataset_doi`` (and ``associated_paper_doi``); fall back to ``doi``.
+    doi = raw.get("dataset_doi") or raw.get("associated_paper_doi") or raw.get("doi")
+    if doi:
+        doi = str(doi).strip()
+        if doi.lower().startswith("doi:"):
+            doi = doi[4:].strip()
 
     return DatasetMetadata(
         dataset=dataset_id,
         paradigm=", ".join(tasks) if tasks else "not specified",
         source=f"EEGDash dataset: {dataset_id}",
         license=str(raw["license"]) if raw.get("license") else None,
-        doi=str(raw["doi"]) if raw.get("doi") else None,
+        doi=doi or None,
         citation=citation,
         sessions_per_subject=_sessions_per_subject(records),
         modalities=modalities,

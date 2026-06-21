@@ -37,13 +37,17 @@ def _normalize_record(record: Any) -> dict[str, Any]:
     elif not isinstance(entities, dict):
         entities = dict(entities) if entities else {}
 
-    modality = record.get("recording_modality") or record.get("datatype")
+    def pick(field: str) -> Any:
+        # EEGDash records may carry BIDS entities nested under "entities" or
+        # flattened at the top level; accept either.
+        return entities.get(field) or record.get(field)
+
     return {
-        "subject": entities.get("subject"),
-        "session": entities.get("session"),
-        "task": entities.get("task"),
-        "run": entities.get("run"),
-        "modality": modality,
+        "subject": pick("subject"),
+        "session": pick("session"),
+        "task": pick("task"),
+        "run": pick("run"),
+        "modality": record.get("recording_modality") or record.get("datatype"),
     }
 
 

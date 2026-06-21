@@ -68,6 +68,15 @@ def test_normalize_record_extracts_entities():
     }
 
 
+def test_normalize_record_accepts_flat_entities():
+    # Some records may carry BIDS entities at the top level rather than nested.
+    record = {"subject": "012", "session": "01", "task": "rest", "run": "1"}
+    norm = _normalize_record(record)
+    assert norm["subject"] == "012"
+    assert norm["session"] == "01"
+    assert norm["task"] == "rest"
+
+
 def test_eegdash_backend_builds_metadata_from_injected_client():
     backend = EegdashBackend(client=_sample_client())
     metadata = backend.get_dataset_metadata("ds002718")
@@ -80,6 +89,27 @@ def test_eegdash_backend_builds_metadata_from_injected_client():
     assert metadata.license == "CC0"
     assert metadata.bids_status == "pass"
     assert metadata.citation == "A. Researcher et al. (2024)"
+
+
+def test_eegdash_backend_reads_real_field_names():
+    # EEGDash get_dataset uses dataset_doi (with a "doi:" prefix) and author_year,
+    # and records carry entities flat at the top level.
+    dataset = {
+        "recording_modality": ["eeg"],
+        "source": "openneuro",
+        "license": "CC0",
+        "dataset_doi": "doi:10.18112/openneuro.ds002718.v1.1.0",
+        "author_year": "Wakeman2020",
+    }
+    records = [{"subject": "002", "task": "FaceRecognition"}]
+    backend = EegdashBackend(client=FakeEegdashClient(dataset, records))
+    metadata = backend.get_dataset_metadata("ds002718")
+
+    assert metadata.doi == "10.18112/openneuro.ds002718.v1.1.0"
+    assert metadata.citation == "Wakeman2020"
+    assert metadata.license == "CC0"
+    assert metadata.n_subjects == 1
+    assert metadata.paradigm == "FaceRecognition"
 
 
 def test_eegdash_backend_caches_records():
