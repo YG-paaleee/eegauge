@@ -133,6 +133,7 @@ def run_benchmark(
     plot_path = _write_metric_plot(
         dataset_name,
         {"accuracy": accuracy, "balanced_accuracy": balanced_accuracy},
+        chance_level=chance_level,
         plot_dir=plot_dir,
         plt=stack["plt"],
     )
@@ -253,6 +254,7 @@ def _write_metric_plot(
     dataset_name: str,
     metrics: dict[str, float],
     *,
+    chance_level: float | None = None,
     plot_dir: Path | str,
     plt: Any,
 ) -> Path:
@@ -269,6 +271,16 @@ def _write_metric_plot(
     axis.set_title(f"{dataset_name} baseline metrics")
     for index, value in enumerate(values):
         axis.text(index, min(value + 0.03, 0.98), f"{value:.3f}", ha="center")
+
+    if chance_level is not None:
+        axis.axhline(
+            chance_level,
+            linestyle="--",
+            color="gray",
+            label=f"Chance ({chance_level:.2f})",
+        )
+        axis.legend()
+
     figure.tight_layout()
     figure.savefig(target, dpi=150)
     plt.close(figure)
