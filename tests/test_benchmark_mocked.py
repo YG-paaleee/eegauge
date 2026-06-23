@@ -92,6 +92,12 @@ class FakeAxis:
     def bar(self, labels, values, color=None):
         return None
 
+    def axhline(self, y, linestyle=None, color=None, label=None):
+        return None
+
+    def legend(self):
+        return None
+
     def imshow(self, matrix, cmap=None):
         return object()
 
