@@ -41,6 +41,7 @@ eegdash = [
 ]
 lint = [
   "ruff>=0.6",
+  "mypy>=1.11",
 ]
 dev = [
   "matplotlib>=3.8",
@@ -74,3 +75,7 @@ src = ["src", "tests"]
 [tool.ruff.lint]
 # E/W: pycodestyle, F: pyflakes, I: isort, UP: pyupgrade, B: bugbear, C4: comprehensions
 select = ["E", "W", "F", "I", "UP", "B", "C4"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
